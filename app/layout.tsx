@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Stoq",
+  title: "Signalist",
   description: "Smart investing simplified — track stocks, analyze trends, and manage your portfolio with precision.",
 };
 
