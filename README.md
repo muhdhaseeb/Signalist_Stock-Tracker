@@ -59,7 +59,6 @@ cd signalist
 npm install
 npm run dev
 
-App runs at: http://localhost:3000
 
 🔮 Future Improvements
 
