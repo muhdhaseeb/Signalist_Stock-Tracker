@@ -64,7 +64,6 @@ npm run dev
 
 - Authentication & user accounts
 - Persistent portfolio storage (database integration)
-- Advanced technical indicators (RSI, MACD, SMA)
 - Watchlist feature
 - Real-time WebSocket updates
 - Deployment (Vercel)
