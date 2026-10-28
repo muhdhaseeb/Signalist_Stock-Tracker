@@ -9,7 +9,7 @@ const NavItems = () => {
 
   const isActive = (path: string): boolean => {
     if (path === "/") return pathname === "/"
-    return pathname.startsWith(path)
+    return pathname === path || pathname.startsWith(`${path}/`)
   }
 
   return (

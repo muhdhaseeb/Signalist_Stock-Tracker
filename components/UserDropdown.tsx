@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -19,7 +18,7 @@ const UserDropdown = () => {
   const router = useRouter();
 
   const handleSignOut : () => Promise<void> = async() => {
-    router.push("/signin");
+    router.push("/sign-in");
   }
 
   const user = {

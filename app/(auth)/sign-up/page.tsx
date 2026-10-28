@@ -46,7 +46,10 @@ const SignUp = () => {
         placeholder="John Smith"
         register={register}
         error={errors.fullName}
-        validation={{ required: "Full Name is required", minLength: 2 }}
+        validation={{
+          required: "Full Name is required",
+          minLength: { value: 2, message: "Full Name must be at least 2 characters" },
+        }}
       />
       
       <InputField
@@ -58,13 +61,13 @@ const SignUp = () => {
         validation={{ required: "Email is required", pattern: { value: /^\S+@\S+$/i, message: "Invalid email address" } }}
       />
     
-      {/*<CountrySelectField 
+      <CountrySelectField 
         name="country" 
         label="Country" 
         control={control} 
         error={errors.country} 
         required
-      />*/}
+      />
 
       <InputField
         name="password"
@@ -73,7 +76,10 @@ const SignUp = () => {
         type="password"
         register={register}
         error={errors.password}
-        validation={{ required: "Password is required", minLength: 8 }}
+        validation={{
+          required: "Password is required",
+          minLength: { value: 8, message: "Password must be at least 8 characters" },
+        }}
       />
 
       <SelectField

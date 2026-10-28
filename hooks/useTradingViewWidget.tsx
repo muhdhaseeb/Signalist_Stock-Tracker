@@ -1,35 +1,38 @@
 'use client'
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useMemo } from "react"
 
-
-const useTradingViewWidget = (scriptUrl:  string, config: Record<string, unknown>, height = 600) => {
+const useTradingViewWidget = (
+  scriptUrl: string,
+  config: Record<string, unknown>,
+  height = 600
+) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
+  const stringifiedConfig = useMemo(() => JSON.stringify(config), [config])
 
-  useEffect(
-      () => {
-        if(!containerRef.current) return;
-        if(containerRef.current.dataset.loaded) return;
-        containerRef.current.innerHTML = `<div class="tradingview-widget-container__widget" style="width: 100%; height: ${height}px;"></div>`
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+    if (container.dataset.loaded === stringifiedConfig) return
 
-        const script = document.createElement("script");
-        script.src = scriptUrl;
-        script.async = true;
-        script.innerHTML = JSON.stringify(config);        
-        
-        containerRef.current.appendChild(script);
-        containerRef.current.dataset.loaded = "true";
+    container.innerHTML = `<div class="tradingview-widget-container__widget" style="width: 100%; height: ${height}px;"></div>`
 
-        return () => {
-          if(containerRef.current) {
-            containerRef.current.innerHTML = "";
-            delete containerRef.current.dataset.loaded;
-          }
-        }
-        },
-      [scriptUrl, config, height]
-    );
+    const script = document.createElement("script")
+    script.src = scriptUrl
+    script.async = true
+    script.innerHTML = stringifiedConfig
 
-    return containerRef;
+    container.appendChild(script)
+    container.dataset.loaded = stringifiedConfig
+
+    return () => {
+      if (container) {
+        container.innerHTML = ""
+        delete container.dataset.loaded
+      }
+    }
+  }, [scriptUrl, stringifiedConfig, height])
+
+  return containerRef
 }
 
 export default useTradingViewWidget

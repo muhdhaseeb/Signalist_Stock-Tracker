@@ -31,11 +31,15 @@ type CountrySelectProps = {
 };
 
 const CountrySelect = ({
-                           value,
-                           onChange,
-                       }: {
+    name,
+    value,
+    onChange,
+    error,
+}: {
+    name: string;
     value: string;
     onChange: (value: string) => void;
+    error?: FieldError;
 }) => {
     const [open, setOpen] = useState(false);
 
@@ -55,16 +59,19 @@ const CountrySelect = ({
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
                 <Button
+                    id={name}
                     variant='outline'
                     role='combobox'
                     aria-expanded={open}
-                    className='country-select-trigger'
+                    aria-invalid={Boolean(error)}
+                    aria-describedby={error ? `${name}-error` : undefined}
+                    className={cn('country-select-trigger', error ? 'border-red-500 focus-visible:ring-red-500' : '')}
                 >
                     {value ? (
                         <span className='flex items-center gap-2'>
-              <span>{getFlagEmoji(value)}</span>
-              <span>{countries.find((c) => c.value === value)?.label}</span>
-            </span>
+                            <span>{getFlagEmoji(value)}</span>
+                            <span>{countries.find((c) => c.value === value)?.label}</span>
+                        </span>
                     ) : (
                         'Select your country...'
                     )}
@@ -102,9 +109,9 @@ const CountrySelect = ({
                                         )}
                                     />
                                     <span className='flex items-center gap-2'>
-                    <span>{getFlagEmoji(country.value)}</span>
-                    <span>{country.label}</span>
-                  </span>
+                                        <span>{getFlagEmoji(country.value)}</span>
+                                        <span>{country.label}</span>
+                                    </span>
                                 </CommandItem>
                             ))}
                         </CommandGroup>
@@ -116,12 +123,12 @@ const CountrySelect = ({
 };
 
 export const CountrySelectField = ({
-                                       name,
-                                       label,
-                                       control,
-                                       error,
-                                       required = false,
-                                   }: CountrySelectProps) => {
+    name,
+    label,
+    control,
+    error,
+    required = false,
+}: CountrySelectProps) => {
     return (
         <div className='space-y-2'>
             <Label htmlFor={name} className='form-label'>
@@ -134,10 +141,10 @@ export const CountrySelectField = ({
                     required: required ? `Please select ${label.toLowerCase()}` : false,
                 }}
                 render={({ field }) => (
-                    <CountrySelect value={field.value} onChange={field.onChange} />
+                    <CountrySelect name={name} value={field.value} onChange={field.onChange} error={error} />
                 )}
             />
-            {error && <p className='text-sm text-red-500'>{error.message}</p>}
+            {error && <p id={`${name}-error`} className='text-sm text-red-500' role="alert">{error.message}</p>}
             <p className='text-xs text-gray-500'>
                 Helps us show market data and news relevant to you.
             </p>

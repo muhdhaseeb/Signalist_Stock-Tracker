@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import React, { memo } from 'react';
 
 function TradingViewWidget({title, scriptUrl, config, height = 600, className }:  {
-  title: string;
+  title?: string;
   scriptUrl: string;
   config: Record<string, unknown>;
   height?: number;
