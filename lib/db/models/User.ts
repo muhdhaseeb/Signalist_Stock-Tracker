@@ -1,0 +1,31 @@
+import mongoose, { Schema, Document, Model } from 'mongoose';
+
+export interface IUser extends Document {
+  name: string;
+  email: string;
+  password?: string;
+  country: string;
+  investmentGoals: string;
+  riskTolerance: string;
+  preferredIndustry: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const UserSchema = new Schema<IUser>(
+  {
+    name: { type: String, required: true, trim: true },
+    email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+    password: { type: String, required: true },
+    country: { type: String, default: 'US' },
+    investmentGoals: { type: String, default: 'Growth' },
+    riskTolerance: { type: String, default: 'Medium' },
+    preferredIndustry: { type: String, default: 'Technology' },
+  },
+  { timestamps: true }
+);
+
+export const UserModel: Model<IUser> =
+  mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
+
+export default UserModel;
