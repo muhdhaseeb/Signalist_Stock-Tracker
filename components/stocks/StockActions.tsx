@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import WatchlistButton from '@/components/WatchlistButton';
 import AlertModal from '@/components/alerts/AlertModal';
-import { Bell } from 'lucide-react';
+import ExplainMoveModal from '@/components/stocks/ExplainMoveModal';
+import { Bell, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface StockActionsProps {
@@ -11,6 +12,7 @@ interface StockActionsProps {
   company: string;
   isInWatchlist: boolean;
   currentPrice: number;
+  changePercent?: number;
 }
 
 export default function StockActions({
@@ -18,11 +20,22 @@ export default function StockActions({
   company,
   isInWatchlist,
   currentPrice,
+  changePercent = 0,
 }: StockActionsProps) {
   const [alertOpen, setAlertOpen] = useState(false);
+  const [explainOpen, setExplainOpen] = useState(false);
 
   return (
-    <div className='flex items-center gap-3 w-full sm:w-auto'>
+    <div className='flex flex-wrap items-center gap-3 w-full sm:w-auto'>
+      <Button
+        variant='outline'
+        onClick={() => setExplainOpen(true)}
+        className='border-yellow-500/40 bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-400 font-semibold h-11 px-4 transition-colors'
+      >
+        <Sparkles className='mr-2 h-4 w-4' />
+        Explain This Move
+      </Button>
+
       <Button
         variant='outline'
         onClick={() => setAlertOpen(true)}
@@ -32,7 +45,7 @@ export default function StockActions({
         Set Alert
       </Button>
 
-      <div className='w-48'>
+      <div className='w-44'>
         <WatchlistButton
           symbol={symbol}
           company={company}
@@ -40,6 +53,15 @@ export default function StockActions({
           type='button'
         />
       </div>
+
+      <ExplainMoveModal
+        open={explainOpen}
+        setOpen={setExplainOpen}
+        symbol={symbol}
+        company={company}
+        currentPrice={currentPrice}
+        changePercent={changePercent}
+      />
 
       <AlertModal
         open={alertOpen}

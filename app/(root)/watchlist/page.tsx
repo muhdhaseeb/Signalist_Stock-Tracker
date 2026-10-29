@@ -14,6 +14,7 @@ import WatchlistTable from '@/components/watchlist/WatchlistTable';
 import AlertsList from '@/components/watchlist/AlertsList';
 import WatchlistNews from '@/components/watchlist/WatchlistNews';
 import SearchCommand from '@/components/SearchCommand';
+import ShareWatchlistButton from '@/components/watchlist/ShareWatchlistButton';
 import { Eye, Newspaper } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -96,12 +97,15 @@ export default async function WatchlistPage() {
           </p>
         </div>
 
-        <SearchCommand
-          renderAs='button'
-          buttonLabel='Add Stocks (⌘K)'
-          buttonVariant='primary'
-          className='yellow-btn px-4 text-sm font-semibold'
-        />
+        <div className='flex items-center gap-3'>
+          <ShareWatchlistButton />
+          <SearchCommand
+            renderAs='button'
+            buttonLabel='Add Stocks (⌘K)'
+            buttonVariant='primary'
+            className='yellow-btn px-4 text-sm font-semibold h-11'
+          />
+        </div>
       </div>
 
       {hydratedWatchlist.length === 0 ? (

@@ -63,6 +63,7 @@ export default async function StockDetailsPage({ params }: StockDetailsPageProps
           company={companyName}
           isInWatchlist={inWatchlist}
           currentPrice={currentPrice}
+          changePercent={quote.dp || 0}
         />
       </div>
 
