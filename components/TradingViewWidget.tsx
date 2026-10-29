@@ -1,10 +1,16 @@
-'use client'
+'use client';
 
 import useTradingViewWidget from '@/hooks/useTradingViewWidget';
 import { cn } from '@/lib/utils';
 import React, { memo } from 'react';
 
-function TradingViewWidget({title, scriptUrl, config, height = 600, className }:  {
+function TradingViewWidget({
+  title,
+  scriptUrl,
+  config,
+  height = 600,
+  className,
+}: {
   title?: string;
   scriptUrl: string;
   config: Record<string, unknown>;
@@ -14,11 +20,9 @@ function TradingViewWidget({title, scriptUrl, config, height = 600, className }:
   const container = useTradingViewWidget(scriptUrl, config, height);
 
   return (
-    <div className="w-full">
-      {title && <h3 className="text-2xl font-semibold text-gray-100 mb-5">{title}</h3>}
-      <div className={cn('tradingview-widget-container', className)} ref={container}>
-        <div className="tradingview-widget-container__widget" style={{ height, width: "100%" }}/>
-      </div>
+    <div className='w-full'>
+      {title && <h3 className='text-2xl font-semibold text-gray-100 mb-5'>{title}</h3>}
+      <div className={cn('tradingview-widget-container', className)} ref={container} />
     </div>
   );
 }

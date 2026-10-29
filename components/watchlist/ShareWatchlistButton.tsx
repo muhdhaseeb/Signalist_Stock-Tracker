@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -58,11 +59,10 @@ export default function ShareWatchlistButton() {
               <Share2 className='h-5 w-5 text-yellow-500' />
               <span>Share Your Watchlist</span>
             </DialogTitle>
+            <DialogDescription className='text-xs text-gray-400'>
+              Anyone with this unique link can view your curated watchlist and real-time market quotes.
+            </DialogDescription>
           </DialogHeader>
-
-          <p className='text-xs text-gray-400'>
-            Anyone with this unique link can view your curated watchlist and real-time market quotes.
-          </p>
 
           {loading ? (
             <div className='py-6 flex items-center justify-center'>

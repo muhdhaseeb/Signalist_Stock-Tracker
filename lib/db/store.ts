@@ -76,6 +76,59 @@ const memoryStore: MemoryStore = global.memoryStoreCache || {
   holdings: new Map(),
 };
 
+// Seed demo investor in memory store for instant out-of-the-box local testing
+if (memoryStore.users.size === 0) {
+  const demoUserId = 'demo-investor-001';
+  memoryStore.users.set(demoUserId, {
+    _id: demoUserId,
+    id: demoUserId,
+    name: 'Alex Morgan',
+    email: 'investor@signalist.com',
+    password: '$2b$10$a/7UQiHlFALtwVptJvwBwewlj7Y2b9T2c92L8foye.lTXs8azl6CG', // Password123
+    country: 'United States',
+    investmentGoals: 'Growth',
+    riskTolerance: 'Medium',
+    preferredIndustry: 'Technology',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+
+  memoryStore.watchlist.set(demoUserId, [
+    {
+      _id: 'wl-1',
+      id: 'wl-1',
+      userId: demoUserId,
+      symbol: 'AAPL',
+      company: 'Apple Inc.',
+      addedAt: new Date(),
+    },
+    {
+      _id: 'wl-2',
+      id: 'wl-2',
+      userId: demoUserId,
+      symbol: 'NVDA',
+      company: 'NVIDIA Corporation',
+      addedAt: new Date(),
+    },
+    {
+      _id: 'wl-3',
+      id: 'wl-3',
+      userId: demoUserId,
+      symbol: 'MSFT',
+      company: 'Microsoft Corporation',
+      addedAt: new Date(),
+    },
+    {
+      _id: 'wl-4',
+      id: 'wl-4',
+      userId: demoUserId,
+      symbol: 'TSLA',
+      company: 'Tesla, Inc.',
+      addedAt: new Date(),
+    },
+  ]);
+}
+
 if (!global.memoryStoreCache) {
   global.memoryStoreCache = memoryStore;
 }

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogFooter,
@@ -168,6 +169,9 @@ export default function AlertModal({
           <DialogTitle className='text-xl font-bold text-gray-100 flex items-center justify-between'>
             <span>{action === 'edit' ? 'Edit Smart Alert' : 'Create Smart Alert'}</span>
           </DialogTitle>
+          <DialogDescription className='text-xs text-gray-400'>
+            Set price alert thresholds with automated tracking and email notifications.
+          </DialogDescription>
         </DialogHeader>
 
         {error && (

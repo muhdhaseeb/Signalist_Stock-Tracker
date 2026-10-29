@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -83,6 +84,9 @@ export default function ExplainMoveModal({
               {changePercent.toFixed(2)}%)
             </span>
           </DialogTitle>
+          <DialogDescription className='text-xs text-gray-400'>
+            AI breakdown of market catalysts, financial news, and sentiment behind today&apos;s price move.
+          </DialogDescription>
         </DialogHeader>
 
         {loading ? (

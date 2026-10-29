@@ -4,6 +4,7 @@ import { useState } from 'react';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogFooter,
@@ -89,6 +90,9 @@ export default function AddHoldingModal({
           <DialogTitle className='text-xl font-bold text-gray-100'>
             Add Holding to Portfolio
           </DialogTitle>
+          <DialogDescription className='text-xs text-gray-400'>
+            Record a stock position to calculate your real-time profit and loss and sector allocations.
+          </DialogDescription>
         </DialogHeader>
 
         {error && (

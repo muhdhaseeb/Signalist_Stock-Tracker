@@ -16,6 +16,7 @@ const Header = () => {
               width={140}
               height={32}
               priority
+              style={{ width: 'auto', height: 'auto' }}
               className='h-8 w-auto cursor-pointer'
             />
           </Link>

@@ -1,11 +1,14 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, Loader2 } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
 } from '@/components/ui/dialog';
 import {
   Command,
@@ -18,6 +21,16 @@ import {
 import WatchlistButton from './WatchlistButton';
 import { POPULAR_STOCK_SYMBOLS } from '@/lib/constants';
 
+const DEFAULT_POPULAR_STOCKS: StockWithWatchlistStatus[] = POPULAR_STOCK_SYMBOLS.slice(0, 8).map(
+  (sym) => ({
+    symbol: sym,
+    name: sym,
+    exchange: 'US',
+    type: 'Common Stock',
+    isInWatchlist: false,
+  })
+);
+
 export default function SearchCommand({
   open: controlledOpen,
   setOpen: controlledSetOpen,
@@ -25,25 +38,39 @@ export default function SearchCommand({
   buttonLabel = 'Search stocks (⌘K)',
   buttonVariant = 'primary',
   className = '',
-  initialStocks = [],
+  initialStocks,
 }: SearchCommandProps) {
   const router = useRouter();
   const [internalOpen, setInternalOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<StockWithWatchlistStatus[]>(initialStocks);
+
+  const fallbackStocks = useMemo(() => {
+    return initialStocks && initialStocks.length > 0 ? initialStocks : DEFAULT_POPULAR_STOCKS;
+  }, [initialStocks]);
+
+  const [results, setResults] = useState<StockWithWatchlistStatus[]>(fallbackStocks);
   const [loading, setLoading] = useState(false);
 
   const isControlled = typeof controlledOpen !== 'undefined';
-  const open = isControlled ? controlledOpen : internalOpen;
+  const open = isControlled ? (controlledOpen ?? false) : internalOpen;
+
   const setOpen = useCallback(
-    (value: boolean) => {
-      if (isControlled && controlledSetOpen) {
-        controlledSetOpen(value);
+    (value: boolean | ((prev: boolean) => boolean)) => {
+      if (typeof value === 'function') {
+        if (isControlled && controlledSetOpen) {
+          controlledSetOpen(value(controlledOpen ?? false));
+        } else {
+          setInternalOpen((prev) => (value as (p: boolean) => boolean)(prev));
+        }
       } else {
-        setInternalOpen(value);
+        if (isControlled && controlledSetOpen) {
+          controlledSetOpen(value);
+        } else {
+          setInternalOpen(value);
+        }
       }
     },
-    [isControlled, controlledSetOpen]
+    [isControlled, controlledSetOpen, controlledOpen]
   );
 
   // Keyboard shortcut listener: Cmd/Ctrl + K
@@ -51,31 +78,18 @@ export default function SearchCommand({
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
-        setOpen(!open);
+        setOpen((prev) => !prev);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [open, setOpen]);
+  }, [setOpen]);
 
   // Debounced search
   useEffect(() => {
     if (!query.trim()) {
-      if (initialStocks.length > 0) {
-        setResults(initialStocks);
-      } else {
-        // Show top 6 popular stocks as initial default suggestions
-        setResults(
-          POPULAR_STOCK_SYMBOLS.slice(0, 8).map((sym) => ({
-            symbol: sym,
-            name: sym,
-            exchange: 'US',
-            type: 'Common Stock',
-            isInWatchlist: false,
-          }))
-        );
-      }
+      setResults(fallbackStocks);
       return;
     }
 
@@ -95,7 +109,7 @@ export default function SearchCommand({
     }, 250);
 
     return () => clearTimeout(timer);
-  }, [query, initialStocks]);
+  }, [query, fallbackStocks]);
 
   const handleSelect = (symbol: string) => {
     setOpen(false);
@@ -128,6 +142,11 @@ export default function SearchCommand({
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className='p-0 overflow-hidden bg-gray-800 border-gray-600 sm:max-w-xl'>
+          <DialogHeader className='sr-only'>
+            <DialogTitle>Search Stocks</DialogTitle>
+            <DialogDescription>Search for stocks by symbol or company name</DialogDescription>
+          </DialogHeader>
+
           <Command className='bg-gray-800 border-none' shouldFilter={false}>
             <div className='flex items-center px-4 border-b border-gray-600 relative'>
               <Search className='mr-2 h-4 w-4 shrink-0 text-gray-400' />

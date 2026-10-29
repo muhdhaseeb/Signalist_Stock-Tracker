@@ -4,6 +4,7 @@ import { useState } from 'react';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogFooter,
@@ -87,6 +88,9 @@ export default function CsvImportModal({
           <DialogTitle className='text-xl font-bold text-gray-100'>
             Import Holdings from CSV
           </DialogTitle>
+          <DialogDescription className='text-xs text-gray-400'>
+            Upload a CSV exported from your brokerage or paste CSV rows below.
+          </DialogDescription>
         </DialogHeader>
 
         {error && (

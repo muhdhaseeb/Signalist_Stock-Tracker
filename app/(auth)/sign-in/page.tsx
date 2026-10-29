@@ -13,6 +13,7 @@ const SignIn = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<SignInFormData>({
     defaultValues: {
@@ -81,6 +82,23 @@ const SignIn = () => {
             minLength: { value: 8, message: 'Password must be at least 8 characters' },
           }}
         />
+
+        <div className='p-3 bg-gray-800/80 border border-gray-700 rounded-lg text-xs text-gray-400 flex items-center justify-between'>
+          <div>
+            <span className='font-semibold text-gray-300'>Demo account: </span>
+            <span>investor@signalist.com / Password123</span>
+          </div>
+          <button
+            type='button'
+            onClick={() => {
+              setValue('email', 'investor@signalist.com', { shouldValidate: true });
+              setValue('password', 'Password123', { shouldValidate: true });
+            }}
+            className='text-yellow-500 hover:text-yellow-400 font-semibold cursor-pointer ml-2 shrink-0'
+          >
+            Auto-fill
+          </button>
+        </div>
 
         <button type='submit' disabled={isSubmitting} className='w-full yellow-btn mt-5'>
           {isSubmitting ? 'Signing In...' : 'Login'}
