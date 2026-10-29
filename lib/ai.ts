@@ -188,13 +188,39 @@ export async function parseNaturalLanguageAlert(input: string): Promise<ParsedAl
   }
 
   // Regex rule-based natural language parser
-  const upperInput = input.toUpperCase();
-  const tickerMatch = upperInput.match(/\b([A-Z]{1,5})\b/);
+  const STOP_WORDS = new Set([
+    'ALERT', 'ME', 'IF', 'WHEN', 'STOCK', 'PRICE', 'ABOVE', 'BELOW', 'CROSS',
+    'CROSSES', 'OVER', 'UNDER', 'HITS', 'REACH', 'REACHES', 'DROPS', 'FALLS',
+    'RISES', 'GOES', 'BUY', 'SELL', 'THE', 'AT', 'FOR', 'BY', 'MORE', 'LESS',
+    'THAN', 'DOLLARS', 'USD', 'SET', 'AN', 'A', 'IS', 'TO', 'ON', 'IN', 'WITH'
+  ]);
+
+  const rawMatches = input.match(/\b([a-zA-Z]{1,5})\b/g) || [];
+  let symbol = '';
+
+  // Prioritize explicitly capitalized ticker symbols not in STOP_WORDS
+  for (const word of rawMatches) {
+    const upper = word.toUpperCase();
+    if (word === upper && !STOP_WORDS.has(upper)) {
+      symbol = upper;
+      break;
+    }
+  }
+
+  // Fallback to any non-stop-word
+  if (!symbol) {
+    for (const word of rawMatches) {
+      const upper = word.toUpperCase();
+      if (!STOP_WORDS.has(upper)) {
+        symbol = upper;
+        break;
+      }
+    }
+  }
+
+  if (!symbol) return null;
+
   const numberMatch = input.match(/(\d+(?:\.\d+)?)/);
-
-  if (!tickerMatch) return null;
-
-  const symbol = tickerMatch[1];
   const num = numberMatch ? parseFloat(numberMatch[1]) : 100;
   const isLower =
     input.toLowerCase().includes('drop') ||

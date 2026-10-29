@@ -66,9 +66,13 @@ export async function GET(req: NextRequest) {
       }
     }
 
+    const triggeredCount = evaluated.filter((e) => e.triggered).length;
+
     return NextResponse.json({
       success: true,
       processed: activeAlerts.length,
+      evaluatedAlerts: activeAlerts.length,
+      triggeredCount,
       evaluated,
     });
   } catch (error) {

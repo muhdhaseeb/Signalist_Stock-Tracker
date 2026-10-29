@@ -10,7 +10,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { csvData } = await req.json();
+    const body = await req.json();
+    const csvData = body.csvData || body.csvContent;
     if (!csvData || typeof csvData !== 'string') {
       return NextResponse.json({ error: 'No CSV data provided' }, { status: 400 });
     }
