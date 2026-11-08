@@ -19,16 +19,66 @@ const MOCK_QUOTES: Record<string, { c: number; d: number; dp: number; h: number;
 };
 
 const MOCK_PROFILES: Record<string, { name: string; ticker: string; marketCapitalization: number; finnhubIndustry: string; logo?: string; weburl?: string }> = {
+  // Mega-cap Tech
   AAPL: { name: 'Apple Inc', ticker: 'AAPL', marketCapitalization: 3480000, finnhubIndustry: 'Technology', weburl: 'https://apple.com' },
   MSFT: { name: 'Microsoft Corporation', ticker: 'MSFT', marketCapitalization: 3140000, finnhubIndustry: 'Technology', weburl: 'https://microsoft.com' },
   GOOGL: { name: 'Alphabet Inc', ticker: 'GOOGL', marketCapitalization: 2210000, finnhubIndustry: 'Communication Services', weburl: 'https://abc.xyz' },
+  GOOG: { name: 'Alphabet Inc', ticker: 'GOOG', marketCapitalization: 2210000, finnhubIndustry: 'Communication Services', weburl: 'https://abc.xyz' },
   AMZN: { name: 'Amazon.com Inc', ticker: 'AMZN', marketCapitalization: 2040000, finnhubIndustry: 'Consumer Discretionary', weburl: 'https://amazon.com' },
   TSLA: { name: 'Tesla Inc', ticker: 'TSLA', marketCapitalization: 830000, finnhubIndustry: 'Automotive', weburl: 'https://tesla.com' },
   META: { name: 'Meta Platforms Inc', ticker: 'META', marketCapitalization: 1500000, finnhubIndustry: 'Technology', weburl: 'https://meta.com' },
   NVDA: { name: 'NVIDIA Corporation', ticker: 'NVDA', marketCapitalization: 3470000, finnhubIndustry: 'Semiconductors', weburl: 'https://nvidia.com' },
   NFLX: { name: 'Netflix Inc', ticker: 'NFLX', marketCapitalization: 320000, finnhubIndustry: 'Entertainment', weburl: 'https://netflix.com' },
+  ORCL: { name: 'Oracle Corporation', ticker: 'ORCL', marketCapitalization: 450000, finnhubIndustry: 'Technology', weburl: 'https://oracle.com' },
+  CRM: { name: 'Salesforce Inc', ticker: 'CRM', marketCapitalization: 280000, finnhubIndustry: 'Technology', weburl: 'https://salesforce.com' },
+
+  // Semiconductor & Hardware
   AMD: { name: 'Advanced Micro Devices Inc', ticker: 'AMD', marketCapitalization: 250000, finnhubIndustry: 'Semiconductors', weburl: 'https://amd.com' },
+  INTC: { name: 'Intel Corporation', ticker: 'INTC', marketCapitalization: 110000, finnhubIndustry: 'Semiconductors', weburl: 'https://intel.com' },
+  AVGO: { name: 'Broadcom Inc', ticker: 'AVGO', marketCapitalization: 800000, finnhubIndustry: 'Semiconductors', weburl: 'https://broadcom.com' },
+  QCOM: { name: 'Qualcomm Inc', ticker: 'QCOM', marketCapitalization: 190000, finnhubIndustry: 'Semiconductors', weburl: 'https://qualcomm.com' },
+  TSM: { name: 'Taiwan Semiconductor Manufacturing Co', ticker: 'TSM', marketCapitalization: 950000, finnhubIndustry: 'Semiconductors', weburl: 'https://tsmc.com' },
+  MU: { name: 'Micron Technology Inc', ticker: 'MU', marketCapitalization: 120000, finnhubIndustry: 'Semiconductors', weburl: 'https://micron.com' },
+  ARM: { name: 'Arm Holdings PLC', ticker: 'ARM', marketCapitalization: 140000, finnhubIndustry: 'Semiconductors', weburl: 'https://arm.com' },
+  SMCI: { name: 'Super Micro Computer Inc', ticker: 'SMCI', marketCapitalization: 25000, finnhubIndustry: 'Technology', weburl: 'https://supermicro.com' },
+
+  // Software & Growth
+  ADBE: { name: 'Adobe Inc', ticker: 'ADBE', marketCapitalization: 220000, finnhubIndustry: 'Technology', weburl: 'https://adobe.com' },
+  PLTR: { name: 'Palantir Technologies Inc', ticker: 'PLTR', marketCapitalization: 105000, finnhubIndustry: 'Technology', weburl: 'https://palantir.com' },
+  COIN: { name: 'Coinbase Global Inc', ticker: 'COIN', marketCapitalization: 65000, finnhubIndustry: 'Financial Services', weburl: 'https://coinbase.com' },
+  UBER: { name: 'Uber Technologies Inc', ticker: 'UBER', marketCapitalization: 155000, finnhubIndustry: 'Technology', weburl: 'https://uber.com' },
+  SPOT: { name: 'Spotify Technology SA', ticker: 'SPOT', marketCapitalization: 75000, finnhubIndustry: 'Entertainment', weburl: 'https://spotify.com' },
+  SHOP: { name: 'Shopify Inc', ticker: 'SHOP', marketCapitalization: 110000, finnhubIndustry: 'Technology', weburl: 'https://shopify.com' },
+  SNOW: { name: 'Snowflake Inc', ticker: 'SNOW', marketCapitalization: 45000, finnhubIndustry: 'Technology', weburl: 'https://snowflake.com' },
+  CRWD: { name: 'CrowdStrike Holdings Inc', ticker: 'CRWD', marketCapitalization: 75000, finnhubIndustry: 'Technology', weburl: 'https://crowdstrike.com' },
+  NET: { name: 'Cloudflare Inc', ticker: 'NET', marketCapitalization: 32000, finnhubIndustry: 'Technology', weburl: 'https://cloudflare.com' },
+  PYPL: { name: 'PayPal Holdings Inc', ticker: 'PYPL', marketCapitalization: 80000, finnhubIndustry: 'Financial', weburl: 'https://paypal.com' },
+  ABNB: { name: 'Airbnb Inc', ticker: 'ABNB', marketCapitalization: 85000, finnhubIndustry: 'Consumer Discretionary', weburl: 'https://airbnb.com' },
+
+  // Blue Chips, Finance, Healthcare, Retail
+  DIS: { name: 'Walt Disney Co', ticker: 'DIS', marketCapitalization: 180000, finnhubIndustry: 'Entertainment', weburl: 'https://thewaltdisneycompany.com' },
+  WMT: { name: 'Walmart Inc', ticker: 'WMT', marketCapitalization: 680000, finnhubIndustry: 'Consumer Staples', weburl: 'https://walmart.com' },
+  COST: { name: 'Costco Wholesale Corp', ticker: 'COST', marketCapitalization: 400000, finnhubIndustry: 'Consumer Staples', weburl: 'https://costco.com' },
+  JPM: { name: 'JPMorgan Chase & Co', ticker: 'JPM', marketCapitalization: 640000, finnhubIndustry: 'Financial', weburl: 'https://jpmorganchase.com' },
+  BAC: { name: 'Bank of America Corp', ticker: 'BAC', marketCapitalization: 330000, finnhubIndustry: 'Financial', weburl: 'https://bankofamerica.com' },
+  V: { name: 'Visa Inc', ticker: 'V', marketCapitalization: 570000, finnhubIndustry: 'Financial', weburl: 'https://visa.com' },
+  MA: { name: 'Mastercard Inc', ticker: 'MA', marketCapitalization: 470000, finnhubIndustry: 'Financial', weburl: 'https://mastercard.com' },
+  LLY: { name: 'Eli Lilly and Co', ticker: 'LLY', marketCapitalization: 780000, finnhubIndustry: 'Healthcare', weburl: 'https://lilly.com' },
+  JNJ: { name: 'Johnson & Johnson', ticker: 'JNJ', marketCapitalization: 380000, finnhubIndustry: 'Healthcare', weburl: 'https://jnj.com' },
+  PG: { name: 'Procter & Gamble Co', ticker: 'PG', marketCapitalization: 390000, finnhubIndustry: 'Consumer Staples', weburl: 'https://pg.com' },
+  KO: { name: 'Coca-Cola Co', ticker: 'KO', marketCapitalization: 280000, finnhubIndustry: 'Consumer Staples', weburl: 'https://coca-cola.com' },
+  PEP: { name: 'PepsiCo Inc', ticker: 'PEP', marketCapitalization: 230000, finnhubIndustry: 'Consumer Staples', weburl: 'https://pepsico.com' },
+  XOM: { name: 'Exxon Mobil Corp', ticker: 'XOM', marketCapitalization: 480000, finnhubIndustry: 'Energy', weburl: 'https://exxonmobil.com' },
+  CVX: { name: 'Chevron Corp', ticker: 'CVX', marketCapitalization: 280000, finnhubIndustry: 'Energy', weburl: 'https://chevron.com' },
+  BA: { name: 'Boeing Co', ticker: 'BA', marketCapitalization: 95000, finnhubIndustry: 'Aerospace & Defense', weburl: 'https://boeing.com' },
+  CAT: { name: 'Caterpillar Inc', ticker: 'CAT', marketCapitalization: 190000, finnhubIndustry: 'Industrials', weburl: 'https://caterpillar.com' },
+  BABA: { name: 'Alibaba Group Holding Ltd', ticker: 'BABA', marketCapitalization: 220000, finnhubIndustry: 'Consumer Discretionary', weburl: 'https://alibabagroup.com' },
+
+  // Core ETFs & Benchmarks
   SPY: { name: 'SPDR S&P 500 ETF Trust', ticker: 'SPY', marketCapitalization: 570000, finnhubIndustry: 'Financial', weburl: 'https://ssga.com' },
+  QQQ: { name: 'Invesco QQQ Trust', ticker: 'QQQ', marketCapitalization: 290000, finnhubIndustry: 'Financial', weburl: 'https://invesco.com' },
+  DIA: { name: 'SPDR Dow Jones Industrial Average ETF', ticker: 'DIA', marketCapitalization: 35000, finnhubIndustry: 'Financial', weburl: 'https://ssga.com' },
+  IWM: { name: 'iShares Russell 2000 ETF', ticker: 'IWM', marketCapitalization: 70000, finnhubIndustry: 'Financial', weburl: 'https://ishares.com' },
 };
 
 async function finnhubFetch<T>(endpoint: string, params: Record<string, string> = {}, revalidate = 60): Promise<T | null> {
@@ -72,14 +122,62 @@ export async function searchSymbols(query: string): Promise<FinnhubSearchRespons
     return { count: 0, result: [] };
   }
 
+  // 1. Live Finnhub search if API key is configured
   const live = await finnhubFetch<FinnhubSearchResponse>('/search', { q }, 300);
   if (live && Array.isArray(live.result) && live.result.length > 0) {
     return live;
   }
 
-  // Fallback search over mock catalog
-  const filtered = Object.keys(MOCK_PROFILES)
-    .filter((sym) => sym.toLowerCase().includes(q.toLowerCase()) || MOCK_PROFILES[sym].name.toLowerCase().includes(q.toLowerCase()))
+  // 2. Query Yahoo Finance public ticker search (no API key required, global coverage)
+  try {
+    const yUrl = `https://query1.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(q)}&quotesCount=15&newsCount=0`;
+    const yRes = await fetch(yUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        Accept: 'application/json',
+      },
+      next: { revalidate: 300 },
+    });
+
+    if (yRes.ok) {
+      const yData = await yRes.json();
+      if (Array.isArray(yData.quotes) && yData.quotes.length > 0) {
+        const parsed: FinnhubSearchResult[] = yData.quotes
+          .filter((item: { symbol?: string; quoteType?: string }) => {
+            if (!item.symbol) return false;
+            // Exclude futures, currency crosses, and derivative option chains
+            if (item.symbol.includes('=') || item.symbol.includes('^')) return false;
+            if (item.quoteType === 'OPTION' || item.quoteType === 'FUTURE') return false;
+            if (item.symbol.length > 8) return false;
+            return true;
+          })
+          .map((item: { symbol: string; shortname?: string; longname?: string; exchange?: string; quoteType?: string }) => ({
+            symbol: item.symbol.toUpperCase(),
+            description: item.shortname || item.longname || item.symbol.toUpperCase(),
+            displaySymbol: item.exchange || 'US',
+            type: item.quoteType === 'EQUITY' ? 'Common Stock' : item.quoteType || 'Stock',
+          }));
+
+        if (parsed.length > 0) {
+          return {
+            count: parsed.length,
+            result: parsed,
+          };
+        }
+      }
+    }
+  } catch (err) {
+    console.warn('[Search] Yahoo Finance search fallback exception:', err);
+  }
+
+  // 3. Fallback search over comprehensive local catalog
+  const lowerQ = q.toLowerCase();
+  const catalogMatches = Object.keys(MOCK_PROFILES)
+    .filter(
+      (sym) =>
+        sym.toLowerCase().includes(lowerQ) ||
+        MOCK_PROFILES[sym].name.toLowerCase().includes(lowerQ)
+    )
     .map((sym) => ({
       symbol: sym,
       description: MOCK_PROFILES[sym].name,
@@ -87,9 +185,21 @@ export async function searchSymbols(query: string): Promise<FinnhubSearchRespons
       type: 'Common Stock',
     }));
 
+  // 4. If no results found and query looks like a valid ticker format (e.g. 1-6 alphanumeric characters), provide a direct ticker option
+  const upperQ = q.toUpperCase();
+  const isDirectTicker = /^[A-Z0-9]{1,6}$/.test(upperQ);
+  if (catalogMatches.length === 0 && isDirectTicker) {
+    catalogMatches.push({
+      symbol: upperQ,
+      description: `${upperQ} Stock`,
+      displaySymbol: upperQ,
+      type: 'Common Stock',
+    });
+  }
+
   return {
-    count: filtered.length,
-    result: filtered,
+    count: catalogMatches.length,
+    result: catalogMatches,
   };
 }
 

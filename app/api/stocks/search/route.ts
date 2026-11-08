@@ -19,16 +19,45 @@ export async function GET(req: NextRequest) {
       watchlistSymbols = new Set(watchlist.map((item) => item.symbol.toUpperCase()));
     }
 
-    const items = (searchRes.result || [])
-      .filter((item) => item.symbol && !item.symbol.includes('.'))
-      .slice(0, 15)
-      .map((item) => ({
-        symbol: item.symbol.toUpperCase(),
-        name: item.description || item.symbol,
+    const rawResults = searchRes.result || [];
+    // Prioritize clean primary symbols (e.g. without foreign exchange dots)
+    const cleanSymbols = rawResults.filter((item) => item.symbol && !item.symbol.includes('.'));
+    const candidates = cleanSymbols.length > 0 ? cleanSymbols : rawResults;
+
+    const seenSymbols = new Set<string>();
+    const items = [];
+
+    for (const item of candidates) {
+      if (!item.symbol) continue;
+      if (item.type === 'OPTION' || item.type === 'FUTURE') continue;
+      const upperSym = item.symbol.toUpperCase();
+      if (upperSym.length > 8) continue;
+      if (seenSymbols.has(upperSym)) continue;
+      seenSymbols.add(upperSym);
+
+      items.push({
+        symbol: upperSym,
+        name: item.description || upperSym,
         exchange: item.displaySymbol || item.type || 'US',
         type: item.type || 'Stock',
-        isInWatchlist: watchlistSymbols.has(item.symbol.toUpperCase()),
-      }));
+        isInWatchlist: watchlistSymbols.has(upperSym),
+      });
+
+      if (items.length >= 15) break;
+    }
+
+    // If no search matches were found at all, but the query looks like a ticker symbol (e.g. 1-6 characters like XYZ),
+    // provide it as a direct selectable stock ticker so the user can open its TradingView chart.
+    const upperQuery = q.trim().toUpperCase();
+    if (items.length === 0 && /^[A-Z0-9]{1,6}$/.test(upperQuery)) {
+      items.push({
+        symbol: upperQuery,
+        name: `${upperQuery} Stock`,
+        exchange: 'US',
+        type: 'Stock',
+        isInWatchlist: watchlistSymbols.has(upperQuery),
+      });
+    }
 
     return NextResponse.json({
       count: items.length,
